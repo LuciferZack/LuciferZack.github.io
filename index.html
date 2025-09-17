@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commercial Forecast Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="lib/xlsx.full.min.js"></script>
+
+
+</head>
+<body>
+    <!-- Replace your sidebar with this topbar -->
+<div class="topbar">
+    <div class="topbar-header">
+        <h1>FORECAST ASSISTANT</h1>
+    </div>
+    <ul class="topbar-menu">
+        <li><a href="#" class="active" data-page="homepage">Dashboard</a></li>
+        <li><a href="#" data-page="forecast">Forecast</a></li>
+        <li><a href="#" data-page="cashflow">Cashflow</a></li>
+        <li><a href="#" data-page="dataIntegration">Reports</a></li>
+        <!-- Add more menu items as needed -->
+    </ul>
+</div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Homepage -->
+        <div class="page active" id="homepage">
+            <h1>Data Cleaning</h1>
+
+            <div class="section">
+                <h2>Upload SAP Overall Information</h2>
+                <input type="file" id="fileInput" accept=".xlsx, .xls, .csv">
+                <button id="previewBtn" class="btn" disabled>preview original dataset</button>
+            </div>
+
+            <div class="section" id="filterSection">
+                <h2>Data Filter</h2>
+                <div class="filter-group">
+                    <h3>Name Selection</h3>
+                    <div class="filter-row">
+                        <select id="personFilter">
+                            <option value="">-- PM selection --</option>
+                        </select>
+                        <select id="applicantFilter">
+                            <option value="">-- CPM selection --</option>
+                        </select>
+                        <button id="applyFilterBtn" class="btn">Apply Filter</button>
+                        <button id="resetFilterBtn" class="btn btn-secondary">Reset Filter</button>
+                        <button id="startForecastBtn" class="btn btn-success" disabled>Start Forecast</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Data Preview</h2>
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="rawDataTab">Raw Data</button>
+                    <button class="tab-button" data-tab="cleanedDataTab">Cleaned Data</button>
+                    <button class="tab-button" data-tab="filteredDataTab">Filtered Data</button>
+                </div>
+
+                <div class="tab-content active" id="rawDataTab">
+                    <div class="table-container">
+                        <table id="rawTable"></table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="cleanedDataTab">
+                    <div class="table-container">
+                        <table id="cleanedTable"></table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="filteredDataTab">
+                    <div class="table-container">
+                        <table id="filteredTable"></table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-between align-center gap-10 mb-15">
+                <button id="cleanBtn" class="btn" disabled>Apply Data Cleaning</button>
+                <button id="downloadBtn" class="btn btn-success" disabled>Download Processed File</button>
+                <div class="status" id="statusMessage"></div>
+            </div>
+        </div>
+
+<!-- Forecast Page -->
+<div class="page" id="forecast">
+    <h1>Turnover Forecast</h1>
+
+    <div class="section">
+        <h2>Forecast Parameter</h2>
+        <div class="filter-row">
+            <label for="fiscalYear">Fiscal Year:</label>
+            <select id="fiscalYear" class="fiscal-year-selector">
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025" selected>2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+            </select>
+            <label for="currentPeriod">Fiscal Month:</label>
+            <select id="currentPeriod" class="fiscal-year-selector">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8" selected>8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <button id="updatePeriodBtn" class="btn">Update Period</button>
+            <button id="saveForecastBtn" class="btn">Forecast Saving</button>
+            <button id="exportForecastBtn" class="btn btn-success">Forecast Output</button>
+        </div>
+        <div class="filter-row mt-10">
+            <label for="previousForecast">Upload Previous Forecast:</label>
+            <input type="file" id="previousForecast" accept=".xlsx, .xls, .csv">
+            <button id="loadPreviousBtn" class="btn btn-secondary">Loading Previous Forecast</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>TECO Project Management</h2>
+        <div class="filter-row">
+            <label for="hasTeco">TECO Existence:</label>
+            <select id="hasTeco">
+                <option value="no">NO</option>
+                <option value="yes">YES</option>
+            </select>
+            <div id="tecoControls" style="display: none; margin-left: 10px;">
+                <button id="addTecoBtn" class="btn">add TECO Project</button>
+                <div id="tecoProjectsContainer" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Forecast Table</h2>
+        <div class="forecast-table-container">
+            <table id="forecastTable"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 替换dataIntegration页面中的相关部分 -->
+
+<!-- Data Integration Page -->
+<div class="page" id="dataIntegration">
+    <h1>Data Merging</h1>
+    
+    <div class="section">
+        <h2>Upload CPM Cashin Table</h2>
+        <input type="file" id="cashflowFiles" accept=".xlsx, .xls, .csv" multiple>
+        <button id="mergeCashflowBtn" class="btn" disabled>Table Merging</button>
+    </div>
+    
+    <div class="section">
+        <h2>Overall Cashin Table</h2>
+        <div class="cashflow-table-container">
+            <table id="mergedCashflowTable"></table>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-between align-center gap-10 mb-15">
+        <button id="exportMergedCashflowBtn" class="btn btn-success" disabled>Export Final Cashin Table</button>
+    </div>
+    
+    <!-- Group related forecast functions together in one line -->
+    <div class="section">
+        <h2>Forecast Processing</h2>
+        <div class="filter-row">
+            <div style="flex: 1; margin-right: 10px;">
+                <label for="forecastFiles">CPM Forecast Tables:</label>
+                <input type="file" id="forecastFiles" accept=".xlsx, .xls" multiple style="width: 100%;">
+                <button id="mergeForecastBtn" class="btn" disabled>Merge Forecast Tables</button>
+            </div>
+            <div style="flex: 1; margin-right: 10px;">
+                <label for="customerContractFile">Customer & Contract Information:</label>
+                <input type="file" id="customerContractFile" accept=".xlsx, .xls, .csv" style="width: 100%;">
+            </div>
+            <div style="flex: 1; margin-right: 10px;">
+                <label for="previousMonthFile">Previous Month Data:</label>
+                <input type="file" id="previousMonthFile" accept=".xlsx, .xls, .csv" style="width: 100%;">
+            </div>
+            <div style="flex: 0;">
+                <button id="processForecastBtn" class="btn" disabled style="margin-top: 24px;">Process Forecast Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forecast Tables with Tab Interface -->
+    <div class="section">
+        <h2>Forecast Tables</h2>
+        <!-- Tab buttons for forecast tables -->
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="mergedForecastTab">Merged Forecast</button>
+            <button class="tab-button" data-tab="processedForecastTab">Processed Forecast</button>
+        </div>
+
+        <!-- Tab content for forecast tables -->
+        <div class="tab-content active" id="mergedForecastTab">
+            <div class="cashflow-table-container">
+                <table id="mergedForecastTable"></table>
+            </div>
+            <div class="d-flex justify-between align-center gap-10 mb-15 mt-10">
+                <button id="exportMergedForecastBtn" class="btn btn-success" disabled>Export Merged Forecast</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="processedForecastTab">
+            <div class="cashflow-table-container">
+                <table id="processedForecastTable"></table>
+            </div>
+            <div class="d-flex justify-between align-center gap-10 mb-15 mt-10">
+                <button id="exportProcessedForecastBtn" class="btn btn-success" disabled>Export Processed Forecast</button>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+        <div class="page" id="cashflow">
+            <h1>Cashin Analysis</h1>
+            
+            <div class="section">
+                <h2>Upload Files</h2>
+                <div class="filter-row">
+                    <label for="previousCashinFile">Previous Cashin Forecast:</label>
+                    <input type="file" id="previousCashinFile" accept=".xlsx, .xls, .csv">
+                    
+                    <label for="overallInfoFile">Overall Information:</label>
+                    <input type="file" id="overallInfoFile" accept=".xlsx, .xls, .csv">
+                </div>
+                <button id="processCashflowBtn" class="btn">Data Processing</button>
+            </div>
+            
+            <div class="section">
+                <h2>Cleaned Overall Information</h2>
+                <div class="table-container">
+                    <table id="cleanedOverallTable"></table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Cashin Table</h2>
+                <div class="cashflow-table-container">
+                    <table id="cashflowTable"></table>
+                </div>
+            </div>
+        
+        <!-- Add this inside the cashflow section -->
+        <div class="section">
+            <h2>Cashin Table Filter</h2>
+            <div class="filter-row">
+                <label for="pmFilterCashflow">Filter PM:</label>
+                <select id="pmFilterCashflow">
+                    <option value="">-- All PMs --</option>
+                </select>
+                <button id="applyPmFilterBtn" class="btn">Apply Filter</button>
+                <button id="resetPmFilterBtn" class="btn btn-secondary">Reset Filter</button>
+            </div>
+        </div>
+        
+        
+        
+            
+            <div class="d-flex justify-between align-center gap-10 mb-15">
+                <button id="exportCashflowBtn" class="btn btn-success" disabled>Export Cashin Table</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- TECO Modal -->
+    <div id="tecoModal" class="modal">
+        <div class="modal-content">
+            <h3>Add TECO Project</h3>
+            <div class="mb-15">
+                <label>Project Selection:</label>
+                <select id="tecoProjectSelect" multiple style="width: 100%; height: 150px; margin-bottom: 10px;"></select>
+            </div>
+            <div class="mb-15">
+                <label>TECO point:</label>
+                <select id="tecoPeriodSelect" style="width: 100%; margin-bottom: 15px;"></select>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmTecoBtn" class="btn">confirm</button>
+                <button id="cancelTecoBtn" class="btn btn-secondary">cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/forecast.js"></script>
+    <script src="js/cashflow.js"></script>
+    <script src="js/integration.js"></script>
+</body>
+</html>

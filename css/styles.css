@@ -1,0 +1,696 @@
+:root {
+    --topbar-height: 60px;
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --light-bg: #f5f7fa;
+    --white: #ffffff;
+    --border-color: #ddd;
+    --text-color: #333;
+    --text-light: #777;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-bg);
+    display: flex;
+    flex-direction: column; /* Changed from default flex */
+    min-height: 100vh;
+}
+
+/* Top Navigation Bar Styles */
+.topbar {
+    height: var(--topbar-height);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.topbar-header h1 {
+    color: var(--primary-color);
+    margin-right: 30px;
+}
+
+.topbar-menu {
+    display: flex;
+    list-style: none;
+    flex: 1;
+}
+
+.topbar-menu li {
+    margin-right: 5px;
+}
+
+.topbar-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.topbar-menu a:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--primary-color);
+}
+
+.topbar-menu a.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    margin-top: var(--topbar-height); /* Changed from margin-left */
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Top Navigation Bar Styles */
+.topbar {
+    height: var(--topbar-height);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.topbar-header h1 {
+    color: var(--primary-color);
+    margin-right: 30px;
+}
+
+.topbar-menu {
+    display: flex;
+    list-style: none;
+    flex: 1;
+}
+
+.topbar-menu li {
+    margin-right: 5px;
+}
+
+.topbar-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.topbar-menu a:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--primary-color);
+}
+
+.topbar-menu a.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    margin-top: var(--topbar-height); /* Changed from margin-left */
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Rest of your existing styles remain the same */
+/* ... */
+
+/* Remove sidebar-specific styles since we're converting to topbar */
+.sidebar,
+.sidebar-trigger,
+.sidebar:hover,
+.sidebar.active {
+    display: none;
+}
+
+
+/* Update main content styles */
+.main-content {
+    flex: 1;
+    margin-left: 0; /* Changed from var(--sidebar-width) */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Common Section Styles */
+.section {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+/* Table Styles */
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Add or update the forecast table container */
+.forecast-table-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 100%;
+    height: 400px; /* Fixed height */
+    position: relative;
+    font-size: 10px; /* Even smaller font size */
+}
+
+#forecastTable {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 10px; /* Smaller font size */
+}
+
+#forecastTable th, 
+#forecastTable td {
+    padding: 2px 4px; /* Minimal padding */
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    min-width: 45px; /* Reduced min-width */
+    max-width: 100px; /* Add max-width to prevent overly wide columns */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Even smaller widths for fixed columns */
+.fixed-column {
+    position: sticky;
+    background-color: white;
+    z-index: 10;
+    font-size: 10px;
+}
+
+.fixed-column:nth-child(1) { left: 0; min-width: 30px; }      /* Level */
+.fixed-column:nth-child(2) { left: 30px; min-width: 60px; }   /* PM */
+.fixed-column:nth-child(3) { left: 90px; min-width: 70px; }   /* Proj.number */
+.fixed-column:nth-child(4) { left: 160px; min-width: 90px; }  /* Proj.description */
+.fixed-column:nth-child(5) { left: 250px; min-width: 50px; }  /* New order */
+.fixed-column:nth-child(6) { left: 300px; min-width: 40px; }  /* POC% */
+.fixed-column:nth-child(7) { left: 340px; min-width: 55px; }  /* Plan Cost */
+.fixed-column:nth-child(8) { left: 395px; min-width: 60px; }  /* Committed Cost */
+.fixed-column:nth-child(9) { left: 455px; min-width: 55px; }  /* Actual Cost */
+.fixed-column:nth-child(10) { left: 510px; min-width: 55px; } /* Cost Remain */
+
+/* Add border to separate fixed and scrollable columns */
+.fixed-column:nth-child(10) {
+    border-right: 2px solid #333;
+}
+
+/* Ensure header columns align with data columns */
+#forecastTable thead th.fixed-column {
+    z-index: 20;
+}
+
+/* Smaller font for forecast and TO headers */
+.forecast-header, .to-header {
+    font-size: 10px;
+    min-width: 55px;
+    max-width: 80px;
+}
+
+/* Adjust input fields */
+#forecastTable input.editable {
+    width: 45px;
+    font-size: 9px;
+    padding: 1px;
+    border: 1px solid #ccc;
+}
+
+/* Parent rows styling */
+.parent-row {
+    background-color: #f0f8ff;
+    font-weight: bold;
+}
+
+/* Child rows styling */
+.child-row {
+    background-color: #ffffff;
+}
+
+/* Make sure the table container doesn't expand beyond its bounds */
+.forecast-table-wrapper {
+    height: 500px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Add this line */
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+}
+
+.btn-secondary:hover {
+    background-color: #6c7a7d;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+}
+
+.btn-success:hover {
+    background-color: #219653;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Form Elements */
+input[type="file"] {
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+}
+
+select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-right: 10px;
+    min-width: 200px;
+}
+
+input[type="number"] {
+    width: 80px;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Filter Group Styles */
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Tab Styles */
+.tab-buttons {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button.active {
+    border-bottom: 3px solid var(--primary-color);
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Status Message */
+.status {
+    padding: 10px;
+    border-radius: 4px;
+    margin-left: auto;
+}
+
+
+.fiscal-year-selector {
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 5px;
+    width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    text-align: right;
+    margin-top: 15px;
+}
+
+/* Utility Classes */
+.d-flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+/* Cashflow Page Placeholder */
+.placeholder {
+    text-align: center;
+    padding: 50px;
+    color: var(--text-light);
+    font-size: 18px;
+}
+/* Cashflow Table Specific Styles */
+#cashflowTable {
+font-size: 12px;
+width: auto;
+min-width: 100%;
+}
+
+#cashflowTable th, 
+#cashflowTable td {
+padding: 4px 6px;
+min-width: 60px;
+max-width: 120px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+#cashflowTable input {
+width: 100%;
+padding: 2px;
+font-size: 12px;
+}
+
+/* Enhanced dropdown styles for cashflow table */
+.cashflow-table-container select,
+.cashflow-table-container input {
+    width: 100%;
+    padding: 2px 4px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.cashflow-table-container td.readonly {
+    padding: 2px 4px;
+    font-size: 12px;
+}
+
+.cashflow-table-container td {
+    position: relative;
+}
+
+.cashflow-table-container td > div {
+    position: relative;
+}
+/* 添加这个CSS规则确保表格单元格不会裁剪下拉内容 */
+.cashflow-table-container td {
+    overflow: visible !important;
+}
+
+.cashflow-table-container td > div {
+    overflow: visible !important;
+}
+.cashflow-table-container {
+    max-height: 550px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* Make sure the table doesn't expand beyond container */
+.cashflow-table-container table {
+    width: auto;
+    min-width: 100%;
+}
+
+/* Dropdown button styles */
+.cashflow-table-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+}
+
+/* Dropdown list styles */
+.cashflow-table-container > div > div {
+    position: relative;
+}
+
+.cashflow-table-container > div > div > div:last-child {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+}
+
+.cashflow-table-container > div > div > div:last-child > div {
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cashflow-table-container > div > div > div:last-child > div:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+
+/* 添加数据整合页面的特定样式 */
+#mergedCashflowTable th {
+cursor: pointer;
+user-select: none;
+position: relative;
+}
+
+#mergedCashflowTable th:hover {
+background-color: #e0e0e0;
+}
+
+#mergedCashflowTable th::after {
+content: '↕';
+position: absolute;
+right: 8px;
+opacity: 0.5;
+font-size: 12px;
+}
+
+#mergedCashflowTable th.sorted-asc::after {
+content: '↑';
+opacity: 1;
+}
+
+#mergedCashflowTable th.sorted-desc::after {
+content: '↓';
+opacity: 1;
+}
+
+
+/* Add this to your CSS */
+.highlighted-row {
+background-color: #e3f2fd !important;
+}
+
+/* Forecast table tabs styling */
+#dataIntegration .tab-buttons {
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#dataIntegration .tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    border-bottom: 3px solid transparent;
+}
+
+#dataIntegration .tab-button.active {
+    border-bottom: 3px solid var(--primary-color);
+    font-weight: bold;
+}
+
+#dataIntegration .tab-content {
+    display: none;
+}
+
+#dataIntegration .tab-content.active {
+    display: block;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
